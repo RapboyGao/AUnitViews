@@ -25,12 +25,14 @@ public struct AUnitInputHStackFixedUnit: View {
                 return originalUnit.convert(value: value, to: actualUnit)
             },
             set: { newValue in
-                guard let newValue = newValue
-                else {
-                    value = newValue
-                    return
+                DispatchQueue.main.async {
+                    guard let newValue = newValue
+                    else {
+                        value = newValue
+                        return
+                    }
+                    value = actualUnit.convert(value: newValue, to: originalUnit)
                 }
-                value = actualUnit.convert(value: newValue, to: originalUnit)
             }
         )
     }

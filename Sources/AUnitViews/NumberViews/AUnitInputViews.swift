@@ -36,13 +36,15 @@ public struct AUnitInputViews: View {
                 return originalUnit.convert(value: value, to: unit)
             },
             set: { newValue in
-                guard let newValue = newValue,
-                      let unit = bindUnit.wrappedValue
-                else {
-                    value = newValue
-                    return
+                DispatchQueue.main.async {
+                    guard let newValue = newValue,
+                          let unit = bindUnit.wrappedValue
+                    else {
+                        value = newValue
+                        return
+                    }
+                    value = unit.convert(value: newValue, to: originalUnit)
                 }
-                value = unit.convert(value: newValue, to: originalUnit)
             }
         )
     }

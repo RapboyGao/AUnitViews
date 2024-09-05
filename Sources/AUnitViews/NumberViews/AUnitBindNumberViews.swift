@@ -39,18 +39,20 @@ public struct AUnitBindNumberViews: View {
     }
 
     private func handleInput(_ newValue: Double?) {
-        guard let newValue = newValue
-        else {
-            originalValue = nil
-            return
+        DispatchQueue.main.async {
+            guard let newValue = newValue
+            else {
+                originalValue = nil
+                return
+            }
+            guard let shownUnit = shownUnit,
+                  let originalUnit = originalUnit
+            else {
+                originalValue = newValue
+                return
+            }
+            originalValue = shownUnit.convert(value: newValue, to: originalUnit)
         }
-        guard let shownUnit = shownUnit,
-              let originalUnit = originalUnit
-        else {
-            originalValue = newValue
-            return
-        }
-        originalValue = shownUnit.convert(value: newValue, to: originalUnit)
     }
 
     private var bindValue: Binding<Double?> {
