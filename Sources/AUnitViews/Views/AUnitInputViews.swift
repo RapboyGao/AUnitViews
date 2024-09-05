@@ -56,6 +56,7 @@ public struct AUnitInputViews: View {
         #if os(iOS)
         .aKeyboardView { uiTextfield in
             AMathExpressionKeyboard(uiTextfield, format)
+                .frame(height: 260)
         }
         #endif
         .multilineTextAlignment(.trailing)

@@ -49,6 +49,7 @@ public struct AUnitInputHStackFixedUnit: View {
             #if os(iOS)
             .aKeyboardView { uiTextfield in
                 AMathExpressionKeyboard(uiTextfield, format)
+                    .frame(height: 260)
             }
             #endif
             Menu(actualUnit.symbol) {
