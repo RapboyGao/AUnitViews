@@ -1,7 +1,8 @@
 import AUnit
+import AViewUI
 import SwiftUI
 
-@available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
+@available(macOS 12.0, iOS 16, tvOS 15.0, watchOS 8.0, *)
 @available(watchOS, unavailable)
 /// A view for inputting a value and selecting a unit.
 /// 提供输入值和选择单位的视图。
@@ -11,6 +12,10 @@ public struct AUnitInputViews: View {
     private var originalUnit: AUnit
     private var digits: Int
     private var placeholder: String
+
+    private var format: AMathFormatStyle<Double> {
+        .fractionLength(digits)
+    }
 
     private var bindUnit: Binding<AUnit?> {
         Binding {
@@ -48,10 +53,13 @@ public struct AUnitInputViews: View {
             value: convertedValue,
             format: .number.precision(.significantDigits(0 ... digits))
         )
-        .multilineTextAlignment(.trailing)
         #if os(iOS)
-            .modifier(NumberKeyboardModifier(value: convertedValue, digits: digits))
+        .aKeyboardView { uiTextfield in
+            AMathExpressionKeyboard(uiTextfield, format)
+        }
         #endif
+        .multilineTextAlignment(.trailing)
+
         AUnitEasySelectorView(unit: bindUnit, filter: originalUnit.unitType, showNone: false)
     }
 
@@ -73,7 +81,7 @@ public struct AUnitInputViews: View {
     }
 }
 
-@available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
+@available(macOS 12.0, iOS 16, tvOS 15.0, watchOS 8.0, *)
 @available(watchOS, unavailable)
 private struct UnitInputViewExample: View {
     @State private var value: Double? = 1500
@@ -103,7 +111,7 @@ private struct UnitInputViewExample: View {
     }
 }
 
-@available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
+@available(macOS 12.0, iOS 16, tvOS 15.0, watchOS 8.0, *)
 @available(watchOS, unavailable)
 #Preview {
     UnitInputViewExample()

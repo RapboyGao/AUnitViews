@@ -1,7 +1,7 @@
 import AUnit
 import SwiftUI
 
-@available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
+@available(macOS 12.0, iOS 16, tvOS 15.0, watchOS 8.0, *)
 @available(watchOS, unavailable)
 public struct AUnitTypeConversionsForeachView: View {
     @Binding var unitType: AUnitType
@@ -49,7 +49,7 @@ public struct AUnitTypeConversionsForeachView: View {
     }
 }
 
-@available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
+@available(macOS 12.0, iOS 16, tvOS 15.0, watchOS 8.0, *)
 @available(watchOS, unavailable)
 #Preview {
     NavigationView {

@@ -1,7 +1,8 @@
 import AUnit
+import AViewUI
 import SwiftUI
 
-@available(macOS 12.0, iOS 15.0, tvOS 15.0, *)
+@available(macOS 12.0, iOS 16.0, tvOS 15.0, *)
 @available(watchOS, unavailable)
 /// A SwiftUI view for binding and displaying a numeric value with a selectable unit.
 /// This view supports input and display modes, allowing the user to input a value
@@ -59,17 +60,20 @@ public struct AUnitBindNumberViews: View {
         )
     }
 
-    private var format: FloatingPointFormatStyle<Double> {
-        .number.precision(.significantDigits(0 ... digits))
+    private var format: AMathFormatStyle<Double> {
+        .fractionLength(digits)
     }
 
     public var body: some View {
         if allowInput {
             TextField(placeholder, value: bindValue, format: format)
-                .multilineTextAlignment(.trailing)
             #if os(iOS)
-                .modifier(NumberKeyboardModifier(value: bindValue, digits: digits))
+                .aKeyboardView { uiTextfield in
+                    AMathExpressionKeyboard(uiTextfield, format)
+                }
             #endif
+                .multilineTextAlignment(.trailing)
+
         } else {
             Spacer()
             if let shownValue = shownValue {
@@ -113,9 +117,8 @@ public struct AUnitBindNumberViews: View {
     }
 }
 
-@available(macOS 12.0, iOS 15.0, tvOS 15.0, *)
+@available(macOS 12.0, iOS 16.0, tvOS 15.0, *)
 @available(watchOS, unavailable)
-
 #Preview {
     List {
         HStack {

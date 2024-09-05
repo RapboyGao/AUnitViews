@@ -1,7 +1,8 @@
 import AUnit
+import AViewUI
 import SwiftUI
 
-@available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
+@available(macOS 12.0, iOS 16, tvOS 15.0, watchOS 8.0, *)
 @available(watchOS, unavailable)
 public struct AUnitInputHStackFixedUnit: View {
     @Binding private var value: Double?
@@ -34,15 +35,21 @@ public struct AUnitInputHStackFixedUnit: View {
         )
     }
 
+    private var format: AMathFormatStyle<Double> {
+        .fractionLength(digits)
+    }
+
     public var body: some View {
         HStack {
             TextField(
                 placeholder,
                 value: convertedValue,
-                format: .number.precision(.significantDigits(0 ... digits))
+                format: format
             )
             #if os(iOS)
-            .modifier(NumberKeyboardModifier(value: convertedValue, digits: digits))
+            .aKeyboardView { uiTextfield in
+                AMathExpressionKeyboard(uiTextfield, format)
+            }
             #endif
             Menu(actualUnit.symbol) {
                 Label(actualUnit.longName, systemImage: actualUnit.unitType.systemImage)

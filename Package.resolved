@@ -1,0 +1,33 @@
+{
+  "originHash" : "9a15b2dc8f606812c32e3c517917cacc2b68cdee2b8e193653cf0e489d9c41ea",
+  "pins" : [
+    {
+      "identity" : "aunit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/RapboyGao/AUnit.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "b000f540b964d6ff5047b352d1ae43678423c46f"
+      }
+    },
+    {
+      "identity" : "aviewui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/RapboyGao/AViewUI.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "d4ad205c5e10e3e218c633f3e7e11734a0e4397d"
+      }
+    },
+    {
+      "identity" : "swift-numerics",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-numerics",
+      "state" : {
+        "branch" : "main",
+        "revision" : "e30276bff2ff5ed80566fbdca49f50aa160b0e83"
+      }
+    }
+  ],
+  "version" : 3
+}

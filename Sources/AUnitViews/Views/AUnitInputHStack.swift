@@ -1,7 +1,7 @@
 import AUnit
 import SwiftUI
 
-@available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
+@available(macOS 12.0, iOS 16, tvOS 15.0, watchOS 8.0, *)
 @available(watchOS, unavailable)
 /// A view for inputting a value and selecting a unit.
 /// 提供输入值和选择单位的视图。
@@ -56,7 +56,7 @@ public struct AUnitInputHStack<ALabel: View>: View {
     }
 }
 
-@available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
+@available(macOS 12.0, iOS 16, tvOS 15.0, watchOS 8.0, *)
 @available(watchOS, unavailable)
 private struct UnitInputViewExample: View {
     @State private var value: Double? = 1500
@@ -64,28 +64,26 @@ private struct UnitInputViewExample: View {
     @State private var unit2: AUnit? = .feet
 
     var body: some View {
-        NavigationView {
-            List {
-                AUnitInputHStack(
-                    value: $value,
-                    unit: $unit1,
-                    .meters,
-                    digits: 5,
-                    placeholder: "1"
-                )
-                AUnitInputHStack(
-                    value: $value,
-                    unit: $unit2,
-                    .meters,
-                    digits: 5,
-                    placeholder: "2"
-                )
-            }
+        List {
+            AUnitInputHStack(
+                value: $value,
+                unit: $unit1,
+                .meters,
+                digits: 5,
+                placeholder: "1"
+            )
+            AUnitInputHStack(
+                value: $value,
+                unit: $unit2,
+                .meters,
+                digits: 5,
+                placeholder: "2"
+            )
         }
     }
 }
 
-@available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
+@available(macOS 12.0, iOS 16, tvOS 15.0, watchOS 8.0, *)
 @available(watchOS, unavailable)
 #Preview {
     UnitInputViewExample()
