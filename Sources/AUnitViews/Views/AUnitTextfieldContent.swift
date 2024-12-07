@@ -61,6 +61,7 @@ public struct AUnitTextfieldContent: View {
                         }
                 } else {
                     TextField(name, value: bindTextfield, format: AMathFormatStyle.precision(precision))
+                        .keyboardType(.decimalPad)
                 }
             } else {
                 Spacer()
