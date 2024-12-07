@@ -10,7 +10,7 @@ public struct AUnitAnyTypeEasySelectorView: View {
 
     public var body: some View {
         AUnitAnyTypeSelectorView(showNil: true) { unit in
-            Text(unit.symbol + " / " + unit.longName)
+            Text(unit.nameInMenu)
         } content: {
             if let unit = unit {
                 Text(unit.shortName)

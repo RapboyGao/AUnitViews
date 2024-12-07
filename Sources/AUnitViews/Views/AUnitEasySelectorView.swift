@@ -22,7 +22,7 @@ public struct AUnitEasySelectorView: View {
                 Button {
                     self.unit = unit
                 } label: {
-                    Label(unit.symbol + " / " + unit.longName, systemImage: unit.unitType.systemImage)
+                    Label(unit.nameInMenu, systemImage: unit.unitType.systemImage)
                 }
             }
         } label: {
