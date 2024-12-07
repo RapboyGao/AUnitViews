@@ -2,6 +2,8 @@ import AUnit
 import AViewUI
 import SwiftUI
 
+#if os(iOS)
+
 /// 一个用于输入数字并选择单位的视图，可以进行单位转换。
 /// - 它绑定数字和单位的值，并在提供原始单位时进行单位间的转换。
 /// - 应该把它放到HStack里，并放在右侧
@@ -132,3 +134,5 @@ private struct Example: View {
 #Preview {
     Example()
 }
+
+#endif
