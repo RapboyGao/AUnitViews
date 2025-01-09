@@ -1,5 +1,5 @@
 {
-  "originHash" : "a9f5639d9779d78c846c08144f71ead1b85c3d3a0b187c269159bf9dff646e45",
+  "originHash" : "269eb2e41f10b681b25d249f958d4d70f6ae418c1eedc02ff7ad716fff634498",
   "pins" : [
     {
       "identity" : "aunit",
@@ -7,7 +7,16 @@
       "location" : "https://github.com/RapboyGao/AUnit.git",
       "state" : {
         "branch" : "main",
-        "revision" : "0b03565d2df908ce9617a9a32c94cb0b23429aa8"
+        "revision" : "5860330caf4fd98c666c827ca8971da58d9c0a4d"
+      }
+    },
+    {
+      "identity" : "aunits",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/RapboyGao/AUnits.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "21e5b4f353c9904a8a187bf018639d3d99684854"
       }
     },
     {

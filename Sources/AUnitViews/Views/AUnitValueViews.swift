@@ -36,7 +36,7 @@ public struct AUnitValueViews: View {
                     Button {
                         unit = someUnit
                     } label: {
-                        Label(someUnit.symbol + " / " + someUnit.longName, systemImage: someUnit.unitType.systemImage)
+                        Label(someUnit.nameInMenu, systemImage: someUnit.unitType.systemImage)
                     }
                 }
             } label: {
