@@ -9,7 +9,7 @@ public struct AUnitValueViews: View {
     @Binding private var unit: AUnit?
     private var value: Double?
     private var originalUnit: AUnit
-    private var digits: Int
+    private var precision: FloatingPointFormatStyle.Configuration.Precision
 
     private var bindUnit: Binding<AUnit> {
         Binding {
@@ -40,7 +40,7 @@ public struct AUnitValueViews: View {
                     }
                 }
             } label: {
-                Text(convertedValue, format: .number.precision(.significantDigits(0 ... digits)))
+                Text(convertedValue, format: .number.precision(precision))
                     +
                     Text(" " + bindUnit.wrappedValue.symbol)
             }
@@ -53,7 +53,14 @@ public struct AUnitValueViews: View {
         self._unit = unit
         self.value = value
         self.originalUnit = originalUnit
-        self.digits = digits
+        self.precision = .fractionLength(0 ... digits)
+    }
+
+    public init(unit: Binding<AUnit?>, value: Double?, originalUnit: AUnit, precision: FloatingPointFormatStyle.Configuration.Precision) {
+        self._unit = unit
+        self.value = value
+        self.originalUnit = originalUnit
+        self.precision = precision
     }
 }
 

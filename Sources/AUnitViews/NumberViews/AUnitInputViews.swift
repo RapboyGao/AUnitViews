@@ -10,11 +10,11 @@ public struct AUnitInputViews: View {
     @Binding private var value: Double?
     @Binding private var unit: AUnit?
     private var originalUnit: AUnit
-    private var digits: Int
+    private var precision: FloatingPointFormatStyle.Configuration.Precision
     private var placeholder: String
 
     private var format: AMathFormatStyle<Double> {
-        .fractionLength(digits)
+        .precision(precision)
     }
 
     private var bindUnit: Binding<AUnit?> {
@@ -75,7 +75,15 @@ public struct AUnitInputViews: View {
         _value = value
         _unit = unit
         self.originalUnit = originalUnit
-        self.digits = digits
+        self.precision = .fractionLength(0 ... digits)
+        self.placeholder = placeholder
+    }
+
+    public init(value: Binding<Double?>, unit: Binding<AUnit?>, _ originalUnit: AUnit, placeholder: String, precision: FloatingPointFormatStyle.Configuration.Precision) {
+        _value = value
+        _unit = unit
+        self.originalUnit = originalUnit
+        self.precision = precision
         self.placeholder = placeholder
     }
 }
