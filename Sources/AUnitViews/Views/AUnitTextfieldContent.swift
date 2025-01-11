@@ -58,6 +58,7 @@ public struct AUnitTextfieldContent: View {
                     TextField(name, value: bindTextfield, format: AMathFormatStyle.precision(precision))
                         .aKeyboardView { uiTextfield in
                             AMathExpressionKeyboard(uiTextfield, AMathFormatStyle.precision(precision))
+                                .frame(height: 250)
                         }
                 } else {
                     TextField(name, value: bindTextfield, format: AMathFormatStyle.precision(precision))

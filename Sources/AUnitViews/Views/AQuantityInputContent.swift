@@ -69,10 +69,16 @@ public struct AQuantityInputContent<Quantity: AQuantityProtocol, Unit: AUnitProt
         self.precision = precision
     }
     
-    public init(_ quantity: Binding<Quantity?>, originalUnit: Quantity.UnitType, allowInput: Bool, placeholder: String, precision: FloatingPointFormatStyle.Configuration.Precision) {
+    public init(_ quantity: Binding<Quantity?>, allowInput: Bool, placeholder: String, precision: FloatingPointFormatStyle.Configuration.Precision) {
+        let initialUnit = quantity.wrappedValue?.unit ?? Unit.baseUnit
+        let someState = State(initialValue: initialUnit)
         _quantity = quantity
-        _selectedUnit = State(initialValue: originalUnit).projectedValue
-        self.originalUnit = originalUnit
+        _selectedUnit = Binding(get: {
+            someState.wrappedValue
+        }, set: { newValue in
+            someState.wrappedValue = newValue
+        })
+        self.originalUnit = initialUnit
         self.allowInput = allowInput
         self.placeholder = placeholder
         self.precision = precision
@@ -85,6 +91,9 @@ private struct Example: View {
     @State private var selectedUnit: AUAngle = .degrees
     
     var body: some View {
+        HStack {
+            AQuantityInputContent($quantity, allowInput: true, placeholder: "0.0", precision: .fractionLength(0 ... 3))
+        }
         HStack {
             AQuantityInputContent($quantity, selectedUnit: $selectedUnit, originalUnit: .degrees, allowInput: true, placeholder: "0.0", precision: .fractionLength(0 ... 3))
         }
