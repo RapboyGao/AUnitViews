@@ -43,16 +43,24 @@ public struct AUnitInputHStackFixedUnit: View {
 
     public var body: some View {
         HStack {
+            #if os(iOS)
+            AFormatOptionalTextfield(
+                placeholder,
+                value: convertedValue,
+                format: format
+            ) { textfield, bindText in
+                textfield.aKeyboardView { uiTextfield in
+                    AMathExpressionKeyboard<Double>(uiTextfield, bindText, format: .number.precision(.fractionLength(0 ... digits)))
+                        .frame(height: 260)
+                }
+            }
+
+            #else
             TextField(
                 placeholder,
                 value: convertedValue,
                 format: format
             )
-            #if os(iOS)
-            .aKeyboardView { uiTextfield in
-                AMathExpressionKeyboard(uiTextfield, format)
-                    .frame(height: 260)
-            }
             #endif
             Menu(actualUnit.symbol) {
                 Label(actualUnit.longName, systemImage: actualUnit.unitType.systemImage)
