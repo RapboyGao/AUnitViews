@@ -6,20 +6,21 @@ import SwiftUI
 #if os(iOS)
 
 @available(iOS 16, *)
+// AUnitTextfieldContentDebounce 视图结构体
 public struct AUnitTextfieldContentDebounce: View {
-	@Binding var number: Double?
-	@Binding var unit: AUnit?
-	var originalUnit: AUnit?
-	var placeholder: String
-	var format: AMathFormatStyle<Double>
-	var allowSet: Bool
-	var useMath: Bool
-	var typeFilter: [AUnitType]?
+	@Binding var number: Double? // 绑定的数字
+	@Binding var unit: AUnit? // 绑定的单位
+	var originalUnit: AUnit? // 原始单位
+	var placeholder: String // 占位符
+	var format: AMathFormatStyle<Double> // 数字格式
+	var allowSet: Bool // 是否允许设置
+	var useMath: Bool // 是否使用数学键盘
+	var typeFilter: [AUnitType]? // 单位类型过滤器
 
-	@State var text: String = ""
-	@FocusState private var isFocused: Bool
+	@State var text: String = "" // 文本状态
+	@FocusState private var isFocused: Bool // 焦点状态
 
-
+	// 实际显示的文本
 	private var actualText: String {
 		if isFocused {
 			return text
@@ -34,15 +35,16 @@ public struct AUnitTextfieldContentDebounce: View {
 		}
 	}
 
+	// 绑定的文本
 	private var bindText: Binding<String> {
 		Binding {
 			actualText
 		} set: { newValue in
 			update(string: newValue)
 		}
-
 	}
 
+	// 实际选择的单位
 	private var actualSelectedUnit: AUnit? {
 		if let typeFilter = typeFilter, let originalUnit = originalUnit {
 			guard typeFilter.contains(originalUnit.unitType)
@@ -61,7 +63,7 @@ public struct AUnitTextfieldContentDebounce: View {
 		}
 	}
 
-
+	// 更新文本
 	private func update(string newString: String) {
 		text = newString
 		guard let newNumber = try? format.parseStrategy.parse(newString)
@@ -69,11 +71,14 @@ public struct AUnitTextfieldContentDebounce: View {
 		update(num: newNumber)
 	}
 
+	// 更新数字
 	private func update(num newNumber: Double?) {
 		guard let updatedNumber = actualSelectedUnit?.convert(value: newNumber, to: originalUnit) ?? newNumber
 		else { return }
 		number = updatedNumber
 	}
+
+	// 选择单位时的操作
 	private func onSelect(unit newUnit: AUnit) {
 		if let previousNumber = try? format.parseStrategy.parse(text),
 			let newNumber = actualSelectedUnit?.convert(value: previousNumber, to: newUnit)
@@ -83,6 +88,7 @@ public struct AUnitTextfieldContentDebounce: View {
 		self.unit = newUnit
 	}
 
+	// 创建文本框视图
 	@ViewBuilder
 	func makeTextfield() -> some View {
 		Group {
@@ -103,7 +109,7 @@ public struct AUnitTextfieldContentDebounce: View {
 		.focused($isFocused)
 	}
 
-
+	// 视图主体
 	public var body: some View {
 		if allowSet {
 			makeTextfield()
@@ -127,7 +133,7 @@ public struct AUnitTextfieldContentDebounce: View {
 		}
 	}
 
-
+	// 初始化方法
 	public init(
 		_ number: Binding<Double?>, _ unit: Binding<AUnit?>, originalUnit: AUnit?,
 		placeholder: String,
@@ -145,6 +151,7 @@ public struct AUnitTextfieldContentDebounce: View {
 		self.typeFilter = typeFilter
 	}
 
+	// 初始化方法
 	public init(
 		_ number: Binding<Double?>, _ unit: Binding<AUnit?>, originalUnit: AUnit?,
 		placeholder: String, allowSet: Bool,
@@ -163,7 +170,7 @@ public struct AUnitTextfieldContentDebounce: View {
 
 }
 
-
+// 示例视图结构体
 @available(iOS 16, *)
 private struct Example: View {
 	@State var number: Double? = 10.0
@@ -193,11 +200,11 @@ private struct Example: View {
 	}
 }
 
+// 预览
 @available(iOS 16, *)#Preview{
 	List {
 		Example()
 	}
-
 }
 
 #endif
