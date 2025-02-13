@@ -140,6 +140,7 @@ private struct Example: View {
 
 	var body: some View {
 		HStack {
+			Text("Value")
 			AUnitTextfieldContentDebounce(
 				$number, $unit, originalUnit: .meters, placeholder: "Hello",
 				allowSet: false,
@@ -147,7 +148,7 @@ private struct Example: View {
 			)
 		}
 		HStack {
-			Text("Hello")
+            TextField("Hello", value: $number, format: .number)
 		}
 	}
 }
