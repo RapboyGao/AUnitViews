@@ -13,6 +13,7 @@ public struct AUnitTextfieldContentDebounce: View {
 	var placeholder: String
 	var format: AMathFormatStyle<Double>
 	var allowSet: Bool
+	var useMath: Bool
 
 	@State var text: String = ""
 	@FocusState private var isFocused: Bool
@@ -70,17 +71,30 @@ public struct AUnitTextfieldContentDebounce: View {
 		self.unit = newUnit
 	}
 
+	@ViewBuilder
+	func makeTextfield() -> some View {
+		Group {
+			if useMath {
+				TextField(placeholder, text: bindText)
+					.aKeyboardView {
+						AMathExpressionKeyboard(
+							$0, bindText, format: format.displayedFormat
+						)
+						.frame(height: 250)
+					}
+			} else {
+				TextField(placeholder, text: bindText)
+					.keyboardType(.decimalPad)
+			}
+		}
+		.multilineTextAlignment(.trailing)
+		.focused($isFocused)
+	}
+
+
 	public var body: some View {
 		if allowSet {
-			TextField(placeholder, text: bindText)
-				.aKeyboardView {
-					AMathExpressionKeyboard(
-						$0, bindText, format: format.displayedFormat
-					)
-					.frame(height: 250)
-				}
-				.multilineTextAlignment(.trailing)
-				.focused($isFocused)
+			makeTextfield()
 		} else {
 			Spacer()
 			Text("= ") + Text(actualText)
@@ -106,7 +120,8 @@ public struct AUnitTextfieldContentDebounce: View {
 		_ number: Binding<Double?>, _ unit: Binding<AUnit?>, originalUnit: AUnit?,
 		placeholder: String,
 		allowSet: Bool,
-		format: AMathFormatStyle<Double>
+		format: AMathFormatStyle<Double>,
+		useMath: Bool = true
 	) {
 		self._number = number
 		self._unit = unit
@@ -114,12 +129,14 @@ public struct AUnitTextfieldContentDebounce: View {
 		self.placeholder = placeholder
 		self.format = format
 		self.allowSet = allowSet
+		self.useMath = useMath
 	}
 
 	public init(
 		_ number: Binding<Double?>, _ unit: Binding<AUnit?>, originalUnit: AUnit?,
 		placeholder: String, allowSet: Bool,
-		precision: NumberFormatStyleConfiguration.Precision
+		precision: NumberFormatStyleConfiguration.Precision,
+		useMath: Bool = true
 	) {
 		self._number = number
 		self._unit = unit
@@ -127,6 +144,7 @@ public struct AUnitTextfieldContentDebounce: View {
 		self.placeholder = placeholder
 		self.format = AMathFormatStyle.precision(precision)
 		self.allowSet = allowSet
+		self.useMath = useMath
 	}
 
 }
@@ -148,7 +166,15 @@ private struct Example: View {
 			)
 		}
 		HStack {
-            TextField("Hello", value: $number, format: .number)
+			Text("Value")
+			AUnitTextfieldContentDebounce(
+				$number, $unit, originalUnit: .meters, placeholder: "Hello",
+				allowSet: true,
+				precision: .fractionLength(0...3)
+			)
+		}
+		HStack {
+			TextField("Hello", value: $number, format: .number)
 		}
 	}
 }
