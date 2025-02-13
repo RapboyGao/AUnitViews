@@ -14,6 +14,7 @@ public struct AUnitTextfieldContentDebounce: View {
 	var format: AMathFormatStyle<Double>
 	var allowSet: Bool
 	var useMath: Bool
+	var typeFilter: [AUnitType]?
 
 	@State var text: String = ""
 	@FocusState private var isFocused: Bool
@@ -43,10 +44,21 @@ public struct AUnitTextfieldContentDebounce: View {
 	}
 
 	private var actualSelectedUnit: AUnit? {
-		guard unit?.unitType == originalUnit?.unitType else {
-			return originalUnit
+		if let typeFilter = typeFilter, let originalUnit = originalUnit {
+			guard typeFilter.contains(originalUnit.unitType)
+			else {
+				return nil
+			}
+			guard unit?.unitType == originalUnit.unitType else {
+				return originalUnit
+			}
+			return unit ?? originalUnit
+		} else {
+			guard unit?.unitType == originalUnit?.unitType else {
+				return originalUnit
+			}
+			return unit ?? originalUnit
 		}
-		return unit ?? originalUnit
 	}
 
 
@@ -121,7 +133,7 @@ public struct AUnitTextfieldContentDebounce: View {
 		placeholder: String,
 		allowSet: Bool,
 		format: AMathFormatStyle<Double>,
-		useMath: Bool = true
+		useMath: Bool = true, filter typeFilter: [AUnitType]? = nil
 	) {
 		self._number = number
 		self._unit = unit
@@ -130,13 +142,14 @@ public struct AUnitTextfieldContentDebounce: View {
 		self.format = format
 		self.allowSet = allowSet
 		self.useMath = useMath
+		self.typeFilter = typeFilter
 	}
 
 	public init(
 		_ number: Binding<Double?>, _ unit: Binding<AUnit?>, originalUnit: AUnit?,
 		placeholder: String, allowSet: Bool,
 		precision: NumberFormatStyleConfiguration.Precision,
-		useMath: Bool = true
+		useMath: Bool = true, filter typeFilter: [AUnitType]? = nil
 	) {
 		self._number = number
 		self._unit = unit
@@ -145,6 +158,7 @@ public struct AUnitTextfieldContentDebounce: View {
 		self.format = AMathFormatStyle.precision(precision)
 		self.allowSet = allowSet
 		self.useMath = useMath
+		self.typeFilter = typeFilter
 	}
 
 }
