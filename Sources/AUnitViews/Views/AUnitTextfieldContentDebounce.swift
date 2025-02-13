@@ -8,17 +8,17 @@ import SwiftUI
 @available(iOS 16, *)
 // AUnitTextfieldContentDebounce 视图结构体
 public struct AUnitTextfieldContentDebounce: View {
-	@Binding var number: Double? // 绑定的数字
-	@Binding var unit: AUnit? // 绑定的单位
-	var originalUnit: AUnit? // 原始单位
-	var placeholder: String // 占位符
-	var format: AMathFormatStyle<Double> // 数字格式
-	var allowSet: Bool // 是否允许设置
-	var useMath: Bool // 是否使用数学键盘
-	var typeFilter: [AUnitType]? // 单位类型过滤器
+	@Binding var number: Double?  // 绑定的数字
+	@Binding var unit: AUnit?  // 绑定的单位
+	var originalUnit: AUnit?  // 原始单位
+	var placeholder: String  // 占位符
+	var format: AMathFormatStyle<Double>  // 数字格式
+	var allowSet: Bool  // 是否允许设置
+	var useMath: Bool  // 是否使用数学键盘
+	var typeFilter: [AUnitType]?  // 单位类型过滤器
 
-	@State var text: String = "" // 文本状态
-	@FocusState private var isFocused: Bool // 焦点状态
+	@State var text: String = ""  // 文本状态
+	@FocusState private var isFocused: Bool  // 焦点状态
 
 	// 实际显示的文本
 	private var actualText: String {
@@ -168,6 +168,21 @@ public struct AUnitTextfieldContentDebounce: View {
 		self.typeFilter = typeFilter
 	}
 
+	/// 初始化 `AUnitInputContent` 视图，设置各种绑定和配置。
+	///
+	/// - 参数：
+	///   - number: 绑定的数字输入值。
+	///   - unit: 绑定的单位选择器。
+	///   - originalUnit: 用于转换的原始单位（可选）。
+	///   - typeFilter: 过滤单位类型（可选）。
+	///   - allowSet: 是否允许设置自定义数字。
+	///   - mathKeyboard: 是否使用数学键盘输入。
+	///   - name: 输入框的名称或标签。
+	///   - precision: 显示数字的精度配置。
+	public init(_ number: Binding<Double?>, _ unit: Binding<AUnit?>, original originalUnit: AUnit?, filter typeFilter: [AUnitType]?, allowSet: Bool, mathKeyboard: Bool, name: String, precision: FloatingPointFormatStyle<Double>.Configuration.Precision) {
+		self.init(number, unit, originalUnit: originalUnit, placeholder: name, allowSet: allowSet, precision: precision, useMath: mathKeyboard, filter: typeFilter)
+	}
+
 }
 
 // 示例视图结构体
@@ -193,6 +208,11 @@ private struct Example: View {
 				allowSet: true,
 				precision: .fractionLength(0...3)
 			)
+		}
+
+		HStack {
+			Text("Hello")
+			AUnitTextfieldContentDebounce($number, $unit, original: .meters, filter: [.length], allowSet: true, mathKeyboard: true, name: "Hello", precision: .fractionLength(0...10))
 		}
 		HStack {
 			TextField("Hello", value: $number, format: .number)
