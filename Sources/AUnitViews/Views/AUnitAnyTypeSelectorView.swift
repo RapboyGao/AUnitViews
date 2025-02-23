@@ -1,8 +1,7 @@
 import AUnit
 import SwiftUI
 
-@available(iOS 14.0, macOS 11.0, tvOS 17.0, *)
-@available(watchOS, unavailable)
+@available(iOS 14.0, macOS 11.0, tvOS 17.0, watchOS 8, *)
 /// A view for selecting a unit from any unit type with customizable labels and content.
 /// 提供从任意单位类型中选择单位的视图，并且可以自定义标签和内容。
 public struct AUnitAnyTypeSelectorView<Label: View, Content: View>: View {
@@ -12,6 +11,10 @@ public struct AUnitAnyTypeSelectorView<Label: View, Content: View>: View {
     private var onSelect: (AUnit?) -> Void
 
     public var body: some View {
+
+        #if os(watchOS)
+        EmptyView()
+        #else
         Menu {
             if showNil {
                 Button(Ref.none) {
@@ -30,6 +33,8 @@ public struct AUnitAnyTypeSelectorView<Label: View, Content: View>: View {
         } label: {
             content()
         }
+        #endif
+
     }
 
     /// Initializes a new instance of `AUnitAnyTypeSelectorView`.

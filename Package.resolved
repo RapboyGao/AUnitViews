@@ -1,6 +1,15 @@
 {
-  "originHash" : "269eb2e41f10b681b25d249f958d4d70f6ae418c1eedc02ff7ad716fff634498",
+  "originHash" : "e00a5d232320c429b0831d1b8bb943bc3064aca5a8b04e6c54feef17cc9d1cee",
   "pins" : [
+    {
+      "identity" : "amathexpression",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/RapboyGao/AMathExpression.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "ea68daf343a696738a24c8efea0ff74d910fe695"
+      }
+    },
     {
       "identity" : "aunit",
       "kind" : "remoteSourceControl",
@@ -25,7 +34,7 @@
       "location" : "https://github.com/RapboyGao/AViewUI.git",
       "state" : {
         "branch" : "main",
-        "revision" : "0586e8e77a97bc708a318dc89af95adca0472a1a"
+        "revision" : "9789bf18aa469c5ba6ec41c5d515f6dbfe3c078e"
       }
     },
     {
@@ -33,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-numerics",
       "state" : {
-        "branch" : "main",
-        "revision" : "e30276bff2ff5ed80566fbdca49f50aa160b0e83"
+        "revision" : "0a5bc04095a675662cf24757cc0640aa2204253b",
+        "version" : "1.0.2"
       }
     }
   ],

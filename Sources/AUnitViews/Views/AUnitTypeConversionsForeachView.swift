@@ -2,7 +2,6 @@ import AUnit
 import SwiftUI
 
 @available(macOS 12.0, iOS 16, tvOS 15.0, watchOS 8.0, *)
-@available(watchOS, unavailable)
 public struct AUnitTypeConversionsForeachView: View {
     @Binding var unitType: AUnitType
     @State private var value: Double?
@@ -50,7 +49,6 @@ public struct AUnitTypeConversionsForeachView: View {
 }
 
 @available(macOS 12.0, iOS 16, tvOS 15.0, watchOS 8.0, *)
-@available(watchOS, unavailable)
 #Preview {
     NavigationView {
         List {

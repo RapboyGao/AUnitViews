@@ -3,7 +3,6 @@ import AViewUI
 import SwiftUI
 
 @available(macOS 12.0, iOS 16, tvOS 15.0, watchOS 8.0, *)
-@available(watchOS, unavailable)
 /// A view for inputting a value and selecting a unit.
 /// 提供输入值和选择单位的视图。
 public struct AUnitInputViews: View {
@@ -31,14 +30,14 @@ public struct AUnitInputViews: View {
         Binding<Double?>(
             get: {
                 guard let value = value,
-                      let unit = bindUnit.wrappedValue
+                    let unit = bindUnit.wrappedValue
                 else { return value }
                 return originalUnit.convert(value: value, to: unit)
             },
             set: { newValue in
                 DispatchQueue.main.async {
                     guard let newValue = newValue,
-                          let unit = bindUnit.wrappedValue
+                        let unit = bindUnit.wrappedValue
                     else {
                         value = newValue
                         return
@@ -51,14 +50,13 @@ public struct AUnitInputViews: View {
 
     public var body: some View {
         TextField(placeholder, value: convertedValue, format: format)
-        #if os(iOS)
-            .aKeyboardView { uiTextfield in
-                AMathExpressionKeyboard(uiTextfield, format)
-                    .frame(height: 260)
-            }
-        #endif
+            #if os(iOS)
+        .aKeyboardView { uiTextfield in
+            AMathExpressionKeyboard(uiTextfield, format)
+            .frame(height: 260)
+        }
+            #endif
             .multilineTextAlignment(.trailing)
-
         AUnitEasySelectorView(unit: bindUnit, filter: originalUnit.unitType, showNone: false)
     }
 
@@ -75,7 +73,7 @@ public struct AUnitInputViews: View {
         _value = value
         _unit = unit
         self.originalUnit = originalUnit
-        self.precision = .fractionLength(0 ... digits)
+        self.precision = .fractionLength(0...digits)
         self.placeholder = placeholder
     }
 
@@ -89,24 +87,25 @@ public struct AUnitInputViews: View {
 }
 
 @available(macOS 12.0, iOS 16, tvOS 15.0, watchOS 8.0, *)
-@available(watchOS, unavailable)
 private struct UnitInputViewExample: View {
     @State private var value: Double? = 1500
     @State private var unit1: AUnit? = .fahrenheit
     @State private var unit2: AUnit? = .feet
 
     var body: some View {
-        NavigationView {
-            Spacer()
-            List {
-                AUnitInputHStack(
+        List {
+            HStack {
+                AUnitInputViews(
                     value: $value,
                     unit: $unit1,
                     .meters,
                     digits: 5,
                     placeholder: "1"
                 )
-                AUnitInputHStack(
+            }
+
+            HStack {
+                AUnitInputViews(
                     value: $value,
                     unit: $unit2,
                     .meters,
@@ -118,8 +117,6 @@ private struct UnitInputViewExample: View {
     }
 }
 
-@available(macOS 12.0, iOS 16, tvOS 15.0, watchOS 8.0, *)
-@available(watchOS, unavailable)
-#Preview {
+@available(macOS 12.0, iOS 16, tvOS 15.0, watchOS 8.0, *)#Preview{
     UnitInputViewExample()
 }

@@ -3,7 +3,6 @@ import AViewUI
 import SwiftUI
 
 @available(macOS 12.0, iOS 16, tvOS 15.0, watchOS 8.0, *)
-@available(watchOS, unavailable)
 public struct AUnitInputHStackFixedUnit: View {
     @Binding private var value: Double?
     private var unit: AUnit
@@ -50,11 +49,10 @@ public struct AUnitInputHStackFixedUnit: View {
                 format: format
             ) { textfield, bindText in
                 textfield.aKeyboardView { uiTextfield in
-                    AMathExpressionKeyboard<Double>(uiTextfield, bindText, format: .number.precision(.fractionLength(0 ... digits)))
+                    AMathExpressionKeyboard<Double>(uiTextfield, bindText, format: .number.precision(.fractionLength(0...digits)))
                         .frame(height: 260)
                 }
             }
-
             #else
             TextField(
                 placeholder,
@@ -62,9 +60,14 @@ public struct AUnitInputHStackFixedUnit: View {
                 format: format
             )
             #endif
+            #if os(watchOS)
+            Text(actualUnit.symbol)
+            #else
             Menu(actualUnit.symbol) {
                 Label(actualUnit.longName, systemImage: actualUnit.unitType.systemImage)
             }
+            #endif
+
         }
     }
 

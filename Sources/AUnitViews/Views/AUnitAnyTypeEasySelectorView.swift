@@ -1,8 +1,7 @@
 import AUnit
 import SwiftUI
 
-@available(iOS 14.0, macOS 11.0, tvOS 17.0, *)
-@available(watchOS, unavailable)
+@available(iOS 14.0, macOS 11.0, tvOS 17.0, watchOS 8, *)
 /// A view for selecting a unit from any unit type easily.
 /// 提供选择任意单位类型的视图。
 public struct AUnitAnyTypeEasySelectorView: View {
@@ -31,8 +30,7 @@ public struct AUnitAnyTypeEasySelectorView: View {
     }
 }
 
-@available(iOS 14.0, macOS 11.0, tvOS 17.0, *)
-@available(watchOS, unavailable)
+@available(iOS 14.0, macOS 11.0, tvOS 17.0, watchOS 8, *)
 private struct Example: View {
     @State private var unit: AUnit? = nil
     var body: some View {
@@ -40,8 +38,6 @@ private struct Example: View {
     }
 }
 
-@available(iOS 14.0, macOS 11.0, tvOS 17.0, *)
-@available(watchOS, unavailable)
-#Preview {
+@available(iOS 14.0, macOS 11.0, tvOS 17.0, watchOS 8, *)#Preview{
     Example()
 }

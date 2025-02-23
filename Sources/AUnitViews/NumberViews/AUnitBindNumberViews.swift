@@ -2,8 +2,7 @@ import AUnit
 import AViewUI
 import SwiftUI
 
-@available(macOS 12.0, iOS 16.0, tvOS 15.0, *)
-@available(watchOS, unavailable)
+@available(macOS 12.0, iOS 16.0, tvOS 15.0, watchOS 8, *)
 /// A SwiftUI view for binding and displaying a numeric value with a selectable unit.
 /// This view supports input and display modes, allowing the user to input a value
 /// or simply view the converted value with its unit.
@@ -33,7 +32,7 @@ public struct AUnitBindNumberViews: View {
 
     private var shownValue: Double? {
         guard let value = originalValue,
-              let unit = bindUnit.wrappedValue
+            let unit = bindUnit.wrappedValue
         else { return originalValue }
         return originalUnit?.convert(value: value, to: unit)
     }
@@ -46,7 +45,7 @@ public struct AUnitBindNumberViews: View {
                 return
             }
             guard let shownUnit = shownUnit,
-                  let originalUnit = originalUnit
+                let originalUnit = originalUnit
             else {
                 originalValue = newValue
                 return
@@ -69,12 +68,12 @@ public struct AUnitBindNumberViews: View {
     public var body: some View {
         if allowInput {
             TextField(placeholder, value: bindValue, format: format)
-            #if os(iOS)
-                .aKeyboardView { uiTextfield in
-                    AMathExpressionKeyboard(uiTextfield, format)
-                        .frame(height: 260)
-                }
-            #endif
+                #if os(iOS)
+            .aKeyboardView { uiTextfield in
+                AMathExpressionKeyboard(uiTextfield, format)
+                .frame(height: 260)
+            }
+                #endif
                 .multilineTextAlignment(.trailing)
 
         } else {
@@ -82,17 +81,25 @@ public struct AUnitBindNumberViews: View {
             if let shownValue = shownValue {
                 Text("=")
                 Text(shownValue, format: format)
-                    .textSelection(.enabled)
+                    #if !os(watchOS)
+                .textSelection(.enabled)
+                    #endif
+
             } else {
                 Text(verbatim: "-")
             }
         }
+        #if os(watchOS)
+        Text(shownUnit?.symbol ?? "")
+        #else
         if let originalUnit = originalUnit, shownValue != nil || allowInput {
             AUnitEasySelectorView(unit: bindUnit, filter: originalUnit.unitType, showNone: false)
-            #if os(macOS)
-                .frame(maxWidth: 100)
-            #endif
+                #if os(macOS)
+            .frame(maxWidth: 100)
+                #endif
         }
+        #endif
+
     }
 
     /// Initializes a new instance of `AUnitBindNumberViews`.
@@ -120,9 +127,7 @@ public struct AUnitBindNumberViews: View {
     }
 }
 
-@available(macOS 12.0, iOS 16.0, tvOS 15.0, *)
-@available(watchOS, unavailable)
-#Preview {
+@available(macOS 12.0, iOS 16.0, tvOS 15.0, watchOS 8, *)#Preview{
     List {
         HStack {
             Text("Hello")

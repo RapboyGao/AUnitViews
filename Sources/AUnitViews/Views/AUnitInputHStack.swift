@@ -2,7 +2,6 @@ import AUnit
 import SwiftUI
 
 @available(macOS 12.0, iOS 16, tvOS 15.0, watchOS 8.0, *)
-@available(watchOS, unavailable)
 /// A view for inputting a value and selecting a unit.
 /// 提供输入值和选择单位的视图。
 public struct AUnitInputHStack<ALabel: View>: View {
@@ -57,7 +56,6 @@ public struct AUnitInputHStack<ALabel: View>: View {
 }
 
 @available(macOS 12.0, iOS 16, tvOS 15.0, watchOS 8.0, *)
-@available(watchOS, unavailable)
 private struct UnitInputViewExample: View {
     @State private var value: Double? = 1500
     @State private var unit1: AUnit? = .fahrenheit
@@ -84,7 +82,6 @@ private struct UnitInputViewExample: View {
 }
 
 @available(macOS 12.0, iOS 16, tvOS 15.0, watchOS 8.0, *)
-@available(watchOS, unavailable)
 #Preview {
     UnitInputViewExample()
 }

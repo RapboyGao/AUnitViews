@@ -4,7 +4,6 @@ import SwiftUI
 /// A view for viewing a value and selecting a unit.
 /// 提供显示值和选择单位的视图。
 @available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
-@available(watchOS, unavailable)
 public struct AUnitValueViews: View {
     @Binding private var unit: AUnit?
     private var value: Double?
@@ -31,6 +30,10 @@ public struct AUnitValueViews: View {
         Spacer()
         if let convertedValue = convertedValue {
             Text("=")
+            #if os(watchOS)
+            Text(convertedValue, format: .number.precision(precision))
+                + Text(" " + bindUnit.wrappedValue.symbol)
+            #else
             Menu {
                 AUnitForeachView(typeFilter: originalUnit.unitType) { someUnit in
                     Button {
@@ -41,9 +44,11 @@ public struct AUnitValueViews: View {
                 }
             } label: {
                 Text(convertedValue, format: .number.precision(precision))
-                    +
-                    Text(" " + bindUnit.wrappedValue.symbol)
+                    + Text(" " + bindUnit.wrappedValue.symbol)
             }
+
+            #endif
+
         } else {
             Text("-")
         }
@@ -53,7 +58,7 @@ public struct AUnitValueViews: View {
         self._unit = unit
         self.value = value
         self.originalUnit = originalUnit
-        self.precision = .fractionLength(0 ... digits)
+        self.precision = .fractionLength(0...digits)
     }
 
     public init(unit: Binding<AUnit?>, value: Double?, originalUnit: AUnit, precision: FloatingPointFormatStyle.Configuration.Precision) {
@@ -65,7 +70,6 @@ public struct AUnitValueViews: View {
 }
 
 @available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
-@available(watchOS, unavailable)
 private struct Example: View {
     @State private var unit: AUnit?
     private var value: Double? = 5
@@ -81,8 +85,6 @@ private struct Example: View {
     }
 }
 
-@available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
-@available(watchOS, unavailable)
-#Preview {
+@available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)#Preview{
     Example()
 }

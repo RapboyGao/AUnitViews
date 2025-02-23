@@ -1,8 +1,7 @@
 import AUnit
 import SwiftUI
 
-@available(iOS 14.0, macOS 11.0, tvOS 17.0, *)
-@available(watchOS, unavailable)
+@available(iOS 14.0, macOS 11.0, tvOS 17.0, watchOS 8, *)
 /// A view for selecting a unit of a specific type.
 /// 提供选择特定类型单位的视图。
 public struct AUnitEasySelectorView: View {
@@ -12,6 +11,9 @@ public struct AUnitEasySelectorView: View {
     private var showNone: Bool
 
     public var body: some View {
+        #if os(watchOS)
+        Text(unit?.symbol ?? Ref.none)
+        #else
         Menu {
             if showNone {
                 Button(Ref.none) {
@@ -32,6 +34,8 @@ public struct AUnitEasySelectorView: View {
                 Text(Ref.none)
             }
         }
+        #endif
+
     }
 
     /// Initializes a new instance of `AUnitSelectorView`.
@@ -47,8 +51,7 @@ public struct AUnitEasySelectorView: View {
     }
 }
 
-@available(iOS 14.0, macOS 11.0, tvOS 17.0, *)
-@available(watchOS, unavailable)
+@available(iOS 14.0, macOS 11.0, tvOS 17.0, watchOS 8, *)
 private struct AUnitSelectorViewExample: View {
     @State private var unit: AUnit? = .meters
 
@@ -57,8 +60,6 @@ private struct AUnitSelectorViewExample: View {
     }
 }
 
-@available(iOS 14.0, macOS 11.0, tvOS 17.0, *)
-@available(watchOS, unavailable)
-#Preview {
+@available(iOS 14.0, macOS 11.0, tvOS 17.0, watchOS 8, *)#Preview{
     AUnitSelectorViewExample()
 }
