@@ -45,7 +45,7 @@ public struct AUnitTextfieldContent: View {
         }
         // 如果有过滤，则需要contain该originalUnit的type
         guard let unitType = originalUnit?.unitType,
-              typeFilter.contains(unitType)
+            typeFilter.contains(unitType)
         else { return nil }
         return originalUnit
     }
@@ -61,10 +61,10 @@ public struct AUnitTextfieldContent: View {
                         placeholder: name
                     )
                 } else {
-                    AMathFormatTextfield(
-                        number: bindTextfield,
-                        precision: precision,
-                        placeholder: name
+                    TextField(
+                        name,
+                        value: bindTextfield,
+                        format: .number.precision(precision)
                     )
                     .keyboardType(.decimalPad)
                 }
@@ -82,7 +82,7 @@ public struct AUnitTextfieldContent: View {
     }
 
     public var body: some View {
-        if let actualOriginalUnit = actualOriginalUnit { // 如果有原单位
+        if let actualOriginalUnit = actualOriginalUnit {  // 如果有原单位
             textfieldView
             AUnitEasySelectorView(unit: bindUnit, filter: actualOriginalUnit.unitType, showNone: false)
         } else {
@@ -101,7 +101,11 @@ public struct AUnitTextfieldContent: View {
     ///   - mathKeyboard: 是否使用数学键盘输入。
     ///   - name: 输入框的名称或标签。
     ///   - precision: 显示数字的精度配置。
-    public init(_ number: Binding<Double?>, _ unit: Binding<AUnit?>, original originalUnit: AUnit?, filter typeFilter: [AUnitType]?, allowSet: Bool, mathKeyboard: Bool, name: String, precision: FloatingPointFormatStyle<Double>.Configuration.Precision) {
+    public init(
+        _ number: Binding<Double?>, _ unit: Binding<AUnit?>, original originalUnit: AUnit?,
+        filter typeFilter: [AUnitType]?, allowSet: Bool, mathKeyboard: Bool, name: String,
+        precision: FloatingPointFormatStyle<Double>.Configuration.Precision
+    ) {
         self._number = number
         self._unit = unit
         self.originalUnit = originalUnit
@@ -122,15 +126,21 @@ private struct Example: View {
         List {
             HStack {
                 Text("Hello")
-                AUnitTextfieldContent($number, $unit, original: .meters, filter: [.length], allowSet: true, mathKeyboard: true, name: "Hello", precision: .fractionLength(0 ... 10))
+                AUnitTextfieldContent(
+                    $number, $unit, original: .meters, filter: [.length], allowSet: true,
+                    mathKeyboard: true, name: "Hello", precision: .fractionLength(0...10))
             }
             HStack {
                 Text("Hello")
-                AUnitTextfieldContent($number, $unit, original: nil, filter: [.length], allowSet: false, mathKeyboard: true, name: "Hello", precision: .fractionLength(0 ... 10))
+                AUnitTextfieldContent(
+                    $number, $unit, original: nil, filter: [.length], allowSet: false, mathKeyboard: true,
+                    name: "Hello", precision: .fractionLength(0...10))
             }
             HStack {
                 Text("Hello")
-                AUnitTextfieldContent($number, $unit, original: .meters, filter: [.length], allowSet: false, mathKeyboard: true, name: "Hello", precision: .fractionLength(0 ... 10))
+                AUnitTextfieldContent(
+                    $number, $unit, original: .meters, filter: [.length], allowSet: false,
+                    mathKeyboard: true, name: "Hello", precision: .fractionLength(0...10))
             }
         }
     }
