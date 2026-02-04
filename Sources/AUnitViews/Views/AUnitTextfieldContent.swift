@@ -58,7 +58,8 @@ public struct AUnitTextfieldContent: View {
                     AMathFormatTextfield(
                         number: bindTextfield,
                         precision: precision,
-                        placeholder: name
+                        placeholder: name,
+                        rightAligned: true
                     )
                 } else {
                     TextField(
@@ -66,6 +67,7 @@ public struct AUnitTextfieldContent: View {
                         value: bindTextfield,
                         format: .number.precision(precision)
                     )
+                    .multilineTextAlignment(.trailing)
                     .keyboardType(.decimalPad)
                 }
             } else {

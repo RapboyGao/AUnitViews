@@ -68,15 +68,15 @@ public struct AUnitBindNumberViews: View {
     public var body: some View {
         if allowInput {
             #if os(iOS)
-                AMathFormatTextfield(
-                    number: bindValue,
-                    precision: .fractionLength(0...digits),
-                    placeholder: placeholder
-                )
+            AMathFormatTextfield(
+                number: bindValue,
+                precision: .fractionLength(0...digits),
+                placeholder: placeholder,
+                rightAligned: true
+            )
             #else
-                TextField(placeholder, value: bindValue, format: format)
-                    .multilineTextAlignment(.trailing)
-
+            TextField(placeholder, value: bindValue, format: format)
+                .multilineTextAlignment(.trailing)
             #endif
 
         } else {
@@ -85,7 +85,7 @@ public struct AUnitBindNumberViews: View {
                 Text("=")
                 Text(shownValue, format: format)
                     #if !os(watchOS)
-                        .textSelection(.enabled)
+                .textSelection(.enabled)
                     #endif
 
             } else {
@@ -93,19 +93,18 @@ public struct AUnitBindNumberViews: View {
             }
         }
         #if os(watchOS)
-            Text(shownUnit?.symbol ?? "")
+        Text(shownUnit?.symbol ?? "")
         #else
-            if let originalUnit = originalUnit, shownValue != nil || allowInput
-            {
-                AUnitEasySelectorView(
-                    unit: bindUnit,
-                    filter: originalUnit.unitType,
-                    showNone: false
-                )
-                #if os(macOS)
-                    .frame(maxWidth: 100)
-                #endif
-            }
+        if let originalUnit = originalUnit, shownValue != nil || allowInput {
+            AUnitEasySelectorView(
+                unit: bindUnit,
+                filter: originalUnit.unitType,
+                showNone: false
+            )
+            #if os(macOS)
+            .frame(maxWidth: 100)
+            #endif
+        }
         #endif
 
     }
