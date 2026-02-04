@@ -94,12 +94,6 @@ public struct AUnitTextfieldContentDebounce: View {
 		Group {
 			if useMath {
 				TextField(placeholder, text: bindText)
-					.aKeyboardView {
-						AMathExpressionKeyboard(
-							$0, bindText, format: format.displayedFormat
-						)
-						.frame(height: 250)
-					}
 			} else {
 				TextField(placeholder, text: bindText)
 					.keyboardType(.decimalPad)
@@ -215,7 +209,11 @@ private struct Example: View {
 			AUnitTextfieldContentDebounce($number, $unit, original: .meters, filter: [.length], allowSet: true, mathKeyboard: true, name: "Hello", precision: .fractionLength(0...10))
 		}
 		HStack {
-			TextField("Hello", value: $number, format: .number)
+			AMathFormatTextfield(
+				number: $number,
+				precision: .fractionLength(0...3),
+				placeholder: "Hello"
+			)
 		}
 	}
 }

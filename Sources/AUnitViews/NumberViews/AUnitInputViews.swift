@@ -49,14 +49,17 @@ public struct AUnitInputViews: View {
     }
 
     public var body: some View {
+        #if os(iOS)
+        AMathFormatTextfield(
+            number: convertedValue,
+            precision: precision,
+            placeholder: placeholder
+        )
+        .multilineTextAlignment(.trailing)
+        #else
         TextField(placeholder, value: convertedValue, format: format)
-            #if os(iOS)
-        .aKeyboardView { uiTextfield in
-            AMathExpressionKeyboard(uiTextfield, format)
-            .frame(height: 260)
-        }
-            #endif
             .multilineTextAlignment(.trailing)
+        #endif
         AUnitEasySelectorView(unit: bindUnit, filter: originalUnit.unitType, showNone: false)
     }
 

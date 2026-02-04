@@ -45,8 +45,12 @@ public struct AQuantityInputContent<Quantity: AQuantityProtocol, Unit: AUnitProt
     
     public var body: some View {
         if allowInput {
-            TextField(placeholder, value: bindInput, format: AMathFormatStyle<Double>.precision(precision))
-                .multilineTextAlignment(.trailing)
+            AMathFormatTextfield(
+                number: bindInput,
+                precision: precision,
+                placeholder: placeholder
+            )
+            .multilineTextAlignment(.trailing)
             unitSelector()
         } else {
             if let number = number {

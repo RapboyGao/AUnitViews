@@ -67,14 +67,17 @@ public struct AUnitBindNumberViews: View {
 
     public var body: some View {
         if allowInput {
-            TextField(placeholder, value: bindValue, format: format)
-                #if os(iOS)
-            .aKeyboardView { uiTextfield in
-                AMathExpressionKeyboard(uiTextfield, format)
-                .frame(height: 260)
-            }
-                #endif
-                .multilineTextAlignment(.trailing)
+            #if os(iOS)
+                AMathFormatTextfield(
+                    number: bindValue,
+                    precision: .fractionLength(0...digits),
+                    placeholder: placeholder
+                )
+            #else
+                TextField(placeholder, value: bindValue, format: format)
+                    .multilineTextAlignment(.trailing)
+
+            #endif
 
         } else {
             Spacer()
@@ -82,7 +85,7 @@ public struct AUnitBindNumberViews: View {
                 Text("=")
                 Text(shownValue, format: format)
                     #if !os(watchOS)
-                .textSelection(.enabled)
+                        .textSelection(.enabled)
                     #endif
 
             } else {
@@ -90,14 +93,19 @@ public struct AUnitBindNumberViews: View {
             }
         }
         #if os(watchOS)
-        Text(shownUnit?.symbol ?? "")
+            Text(shownUnit?.symbol ?? "")
         #else
-        if let originalUnit = originalUnit, shownValue != nil || allowInput {
-            AUnitEasySelectorView(unit: bindUnit, filter: originalUnit.unitType, showNone: false)
+            if let originalUnit = originalUnit, shownValue != nil || allowInput
+            {
+                AUnitEasySelectorView(
+                    unit: bindUnit,
+                    filter: originalUnit.unitType,
+                    showNone: false
+                )
                 #if os(macOS)
-            .frame(maxWidth: 100)
+                    .frame(maxWidth: 100)
                 #endif
-        }
+            }
         #endif
 
     }
@@ -117,7 +125,14 @@ public struct AUnitBindNumberViews: View {
     ///                  输入字段的占位符文本。
     ///   - allowInput: Determines whether the view allows input.
     ///                 确定视图是否允许输入。
-    public init(value: Binding<Double?>, unit: Binding<AUnit?>, origin originalUnit: AUnit?, digits: Int, placeholder: String, allowInput: Bool) {
+    public init(
+        value: Binding<Double?>,
+        unit: Binding<AUnit?>,
+        origin originalUnit: AUnit?,
+        digits: Int,
+        placeholder: String,
+        allowInput: Bool
+    ) {
         self._originalValue = value
         self._unit = unit
         self.originalUnit = originalUnit
@@ -127,31 +142,73 @@ public struct AUnitBindNumberViews: View {
     }
 }
 
-@available(macOS 12.0, iOS 16.0, tvOS 15.0, watchOS 8, *)#Preview{
+@available(macOS 12.0, iOS 16.0, tvOS 15.0, watchOS 8, *) #Preview {
     List {
         HStack {
             Text("Hello")
-            AUnitBindNumberViews(value: .constant(nil), unit: .constant(.feet), origin: .meters, digits: 5, placeholder: "Hello", allowInput: true)
+            AUnitBindNumberViews(
+                value: .constant(nil),
+                unit: .constant(.feet),
+                origin: .meters,
+                digits: 5,
+                placeholder: "Hello",
+                allowInput: true
+            )
         }
         HStack {
             Text("Hello")
-            AUnitBindNumberViews(value: .constant(5), unit: .constant(.meters), origin: .meters, digits: 5, placeholder: "Hello", allowInput: true)
+            AUnitBindNumberViews(
+                value: .constant(5),
+                unit: .constant(.meters),
+                origin: .meters,
+                digits: 5,
+                placeholder: "Hello",
+                allowInput: true
+            )
         }
         HStack {
             Text("Hello")
-            AUnitBindNumberViews(value: .constant(5), unit: .constant(.celsius), origin: .celsius, digits: 5, placeholder: "Hello", allowInput: false)
+            AUnitBindNumberViews(
+                value: .constant(5),
+                unit: .constant(.celsius),
+                origin: .celsius,
+                digits: 5,
+                placeholder: "Hello",
+                allowInput: false
+            )
         }
         HStack {
             Text("Hello")
-            AUnitBindNumberViews(value: .constant(nil), unit: .constant(.celsius), origin: .celsius, digits: 5, placeholder: "Hello", allowInput: false)
+            AUnitBindNumberViews(
+                value: .constant(nil),
+                unit: .constant(.celsius),
+                origin: .celsius,
+                digits: 5,
+                placeholder: "Hello",
+                allowInput: false
+            )
         }
         HStack {
             Text("Hello")
-            AUnitBindNumberViews(value: .constant(5), unit: .constant(.fahrenheit), origin: nil, digits: 5, placeholder: "Hello", allowInput: false)
+            AUnitBindNumberViews(
+                value: .constant(5),
+                unit: .constant(.fahrenheit),
+                origin: nil,
+                digits: 5,
+                placeholder: "Hello",
+                allowInput: false
+            )
         }
         HStack {
             Text("Hello")
-            AUnitBindNumberViews(value: .constant(nil), unit: .constant(.fahrenheit), origin: nil, digits: 5, placeholder: "Hello", allowInput: false)
+            AUnitBindNumberViews(
+                value: .constant(nil),
+                unit: .constant(.fahrenheit),
+                origin: nil,
+                digits: 5,
+                placeholder: "Hello",
+                allowInput: false
+            )
         }
     }
 }

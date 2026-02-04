@@ -8,3 +8,4 @@ DerivedData/
 .netrc
 summary.md
 .swiftpm
+Package.resolved
